@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Histogram Learning</title>
+<style type="text/css">
+<!--
+body {
+	background-color: #FFFFFF;
+}
+#Layer1 {
+	position:absolute;
+	left:50px;
+	bottom:25px;
+	width:45px;
+	height:0px;
+	z-index:1;
+	background-color:#0000FF;
+}
+
+#Layer2 {
+	position:absolute;
+	left:100px;
+	bottom:25px;
+	width:45px;
+	height:0px;
+	z-index:1;
+	background-color:#0000FF;
+}
+#Layer3 {
+	position:absolute;
+	left:150px;
+	bottom:25px;
+	width:45px;
+	height:0px;
+	z-index:1;
+	background-color:#0000FF;
+}
+#Layer4 {
+	position:absolute;
+	left:200px;
+	bottom:25px;
+	width:45px;
+	height:0px;
+	z-index:1;
+	background-color:#0000FF;
+}
+#Layer5 {
+	position:absolute;
+	left:250px;
+	bottom:25px;
+	width:45px;
+	height:0px;
+	z-index:1;
+	background-color:#0000FF;
+}
+#Layer6 {
+	position:absolute;
+	left:300px;
+	bottom:25px;
+	width:45px;
+	height:0px;
+	z-index:1;
+	background-color:#0000FF;
+}
+#Layer7 {
+	position:absolute;
+	left:350px;
+	bottom:25px;
+	width:45px;
+	height:0px;
+	z-index:1;
+	background-color:#0000FF;
+}
+#Layer8 {
+	position:absolute;
+	left:400px;
+	bottom:25px;
+	width:45px;
+	height:0px;
+	z-index:1;
+	background-color:#0000FF;
+}
+#Layer9 {
+	position:absolute;
+	left:450px;
+	bottom:25px;
+	width:45px;
+	height:0px;
+	z-index:1;
+	background-color:#0000FF;
+}
+#Layer10 {
+	position:absolute;
+	left:500px;
+	bottom:25px;
+	width:45px;
+	height:0px;
+	z-index:1;
+	background-color:#0000FF;
+}
+#Layer11 {
+	position:absolute;
+	width:200px;
+	height:115px;
+	z-index:2;
+	left: 720px;
+	top: 220px;
+}
+#Layer12 {
+	position:absolute;
+	width:200px;
+	height:28px;
+	z-index:2;
+	left: 610px;
+	top: 124px;
+}
+#Layer13 {
+	position:absolute;
+	left:570px;
+	top:86px;
+	width:202px;
+	height:29px;
+	z-index:3;
+}
+
+#external {
+	position:absolute;
+	left:360px;
+	top:177px;
+	width:577px;
+	height:332px;
+	z-index:4;
+	border-width:2px; border-style:ridge;
+	background-color:#FFCC99;
+}
+
+#LayerButton {
+	position:absolute;
+	color:red;
+	left:615px;
+	top:520px;
+	width:50px;
+	height:50px;
+	z-index:3000;
+}
+-->
+</style>
+
+<script>
+var numbers = new Array();
+var tries = 20000;
+
+function d2h(d) {return d.toString(16);}
+
+function h2d(h) {return parseInt(h,16);}
+
+function initColors() {
+	var  initDecColor = 0;	
+	for(i = 0; i < 10; i++) {
+		initDecColor += 300;
+		initHexColor = d2h(initDecColor);
+		var divID = "Layer" + (i + 1);
+		document.getElementById(divID).style.backgroundColor = "#" + initHexColor;
+		var bgcolor = document.getElementById(divID).style.backgroundColor;
+		//alert("bgcolor: " + bgcolor);
+	}
+}
+
+function generateNumbers() {
+	var tries = document.form1.select.options[document.form1.select.selectedIndex].text;	
+	for(i = 0; i < 10; i++) {
+		numbers[i] = 0;
+	}
+	for(i = 0; i < tries; i++) {
+		var num = Math.floor(Math.random() * 10);
+		numbers[num]++;
+	}
+	displayHistogram();
+}
+
+function displayHistogram() {
+	var maxNum = 0;
+	var scaleFactor = 280;
+	for(i = 0; i < numbers.length; i++) {
+		maxNum = Math.max(maxNum, numbers[i]);
+	}
+	for(i = 0; i < numbers.length; i++) {
+		var divID = "Layer" + (i + 1);
+		document.getElementById(divID).style.height = numbers[i] / maxNum * scaleFactor + "px";
+	}	
+}
+</script>
+</head>
+
+<body onload="initColors(); generateNumbers();">
+<div id="Layer12">
+  <form id="form1" name="form1" method="post" action="">
+    <div id="Layer11"></div>
+    <select name="select" onchange="generateNumbers()">
+      <option>20</option>
+      <option>200</option>
+      <option>2000</option>
+      <option>20000</option>
+	  <option>200000</option>
+    </select>
+  </form>
+</div>
+<div id="Layer13"><strong>Select tries number </strong></div>
+<h3 align="center">Histogram For Uniform Distribution</h3>
+<div id="external">
+		<div id="Layer1"></div>
+		<div id="Layer2"></div>
+		<div id="Layer3"></div>
+		<div id="Layer4"></div>
+		<div id="Layer5"></div>
+		<div id="Layer6"></div>
+		<div id="Layer7"></div>
+		<div id="Layer8"></div>
+		<div id="Layer9"></div>
+		<div id="Layer10"></div>
+</div>
+<div id="LayerButton">
+  	<p align="center">
+		<input type="button" value="Reload Page" onClick="window.location.reload();" />
+	</p>
+</div>
+
+
+</body>
+</html>
