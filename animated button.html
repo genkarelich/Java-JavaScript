@@ -1,0 +1,137 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Animation Example</title>
+<script>
+var initX = 500;
+var initY = 200;
+var stepX = 15;
+var stepY = 5;
+var btnWidth = 120;
+//var direction = "right";
+var dir = "right";
+var stopButton = false;
+function initButton() {
+	var btnObj = document.getElementById("anim");
+	var buttonObj = document.getElementById("animBtn");
+	btnObj.style.left = initX + "px";
+	btnObj.style.top = initY + "px";
+	buttonObj.style.width = btnWidth + "px";
+	buttonObj.style.height = "30px";	
+}
+
+function setInitDir(param) {
+	dir = param;
+}
+
+function hideButton() {
+	stopButton = true;
+	var btnObj = document.getElementById("anim");
+	btnObj.style.visibility = "hidden";
+}
+
+function showButton() {
+	stopButton = false;
+	var btnObj = document.getElementById("anim");
+	btnObj.style.visibility = "visible";
+}
+
+function downButton() {
+	var btnObj = document.getElementById("anim");
+	//alert(btnObj)
+	var topPos = parseInt(btnObj.style.top);
+	topPos += stepY;
+	btnObj.style.top = topPos + "px";
+}
+
+function upButton() {
+	var btnObj = document.getElementById("anim");
+	//alert(btnObj)
+	var topPos = parseInt(btnObj.style.top);
+	topPos -= stepY;
+	btnObj.style.top = topPos + "px";
+}
+
+function leftButton() {
+	var btnObj = document.getElementById("anim");
+	//alert(btnObj)
+	var leftPos = parseInt(btnObj.style.left);
+	leftPos -= stepY;
+	btnObj.style.left = leftPos + "px";
+}
+
+function rightButton() {	
+	var btnObj = document.getElementById("anim");
+	//alert(btnObj)
+	var leftPos = parseInt(btnObj.style.left);
+	leftPos += stepY;
+	btnObj.style.left = leftPos + "px";	
+}
+
+function moveRightButton() {	
+	var btnObj = document.getElementById("anim");
+	//alert(btnObj)
+	var leftPos = parseInt(btnObj.style.left);
+	if(leftPos > window.screen.width - btnWidth) {
+		dir = "left";
+	} else if(leftPos < 0) {
+		dir = "right";
+	}
+	
+	if(! stopButton) {
+		if(dir == "right") {
+			leftPos += stepX;
+		} else {
+			leftPos -= stepX;
+		}
+	}
+	btnObj.style.left = leftPos + "px";	
+	window.setTimeout("moveRightButton()", 100);		
+}
+
+function moveLeftButton() {	
+	var btnObj = document.getElementById("anim");
+	//alert(btnObj)
+	var leftPos = parseInt(btnObj.style.left);
+	if(leftPos < 0) {
+		dir = "right";
+	} else if(leftPos > window.screen.width - btnWidth) {
+		dir = "left";
+	}
+	
+	if(! stopButton) {
+		if(dir == "left") {
+			leftPos -= stepX;
+		} else {
+			leftPos += stepX;
+		}
+	}
+	btnObj.style.left = leftPos + "px";
+	window.setTimeout("moveLeftButton()", 100);		
+}
+</script>
+</head>
+<body bgcolor="#66CCFF" onLoad="initButton();">
+<h1 align="center">Animation Example</h1>
+<br><br><br>
+<form>
+<p align="center">
+<center>
+  <input name="button4" type="button" onClick="hideButton()" value="Hide" />
+  <input type="button" value="Show"  onClick="showButton()"/>
+<input type="button" value="Up" onClick="upButton();"> 
+<input type="button" value="Down" onClick="downButton();"> 
+<input type="button" value="Left" onClick="leftButton()"> 
+<input type="button" value="Right" onClick="rightButton()">
+<input type="button" value="Move Left" onClick="setInitDir('left'); moveLeftButton()">
+<input name="button" type="button" onClick="setInitDir('right'); moveRightButton()" value="Move Right">
+<input name="button2" type="button" onClick="stopButton = true;" value="Stop">
+<input name="button3" type="button" onClick="stopButton = false;" value="Resume"> <input name="button3" type="button" onClick="window.location.reload();" value="Reset">
+</center>
+</p>
+<div id="anim" style=" position:absolute; left:0px; top:200px;">
+  <input id="animBtn" type="button" onMouseDown="hideButton();" value="Animated Button" />
+</div>
+</form>
+</body>
+</html>
